@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% from "_macros.html" import csrf_field with context %}
+
+{% block title %}Pusher Beams Settings{% endblock %}
+
+{% block content %}
+<h1>Pusher Beams</h1>
+
+<div class="card">
+    <h2>Configuration</h2>
+    {% if config %}
+    <div class="alert alert--info" style="margin-bottom:1em;">
+        <strong>Status:</strong> {% if addon and addon.is_enabled %}Enabled{% else %}Disabled{% endif %}
+    </div>
+    {% endif %}
+
+    <form method="post" action="/admin/notifications/pusher_beams/save" class="form">
+        {{ csrf_field() }}
+        <div class="form-group">
+            <label for="instance_id">Instance ID</label>
+            <input type="text" id="instance_id" name="instance_id"
+                   value="{{ config.get('instance_id', '') }}" />
+        </div>
+        <div class="form-group">
+            <label for="secret_key">Secret Key</label>
+            <input type="password" id="secret_key" name="secret_key"
+                   value="{{ config.get('secret_key', '') }}" />
+        </div>
+        <div class="form-group">
+            <label>
+                <input type="checkbox" name="is_enabled" {% if addon and addon.is_enabled %}checked{% endif %} />
+                Only one provider per channel can be enabled at a time.
+            </label>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn--primary">Save Configuration</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
