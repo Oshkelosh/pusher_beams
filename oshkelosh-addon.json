@@ -1,0 +1,9 @@
+{
+  "addon_id": "pusher_beams",
+  "addon_name": "Pusher Beams",
+  "addon_description": "Send push notifications via Pusher Beams.",
+  "category": "notification",
+  "version": "1.0.0",
+  "min_oshkelosh_version": "0.1.0",
+  "python_requires": ">=3.11"
+}
