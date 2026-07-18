@@ -9,7 +9,6 @@ from fastapi import APIRouter
 from pydantic import BaseModel, Field, SecretStr
 
 from app.addons.notifications.base import NotificationAddon
-from app.addons.notifications.helpers import post_json_webhook
 from app.addons.log import info, warning
 from app.addons.config_serialization import dump_addon_config
 
@@ -138,12 +137,6 @@ class PusherBeamsAddon(NotificationAddon):
         except Exception as exc:
             warning("Pusher Beams", "send_push to={} error: {}", to, exc)
             return {"success": False, "message_id": "", "error": str(exc), "to": to}
-
-    async def send_webhook(self, url: str, payload: Dict[str, Any]) -> Dict[str, Any]:
-        result = await post_json_webhook(url, payload)
-        if not result.get("success"):
-            warning("Pusher Beams", "send_webhook to={} error: {}", url, result.get("error"))
-        return result
 
     def list_public_push_config(self) -> dict[str, Any] | None:
         if not self._instance_id:
